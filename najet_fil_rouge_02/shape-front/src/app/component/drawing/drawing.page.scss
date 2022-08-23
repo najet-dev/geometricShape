@@ -1,0 +1,139 @@
+ion-content{
+// --background: #a4a2a2;
+}
+.container{
+  padding:18px;
+}
+.content{
+  border:1px solid black;
+
+  display: block;
+
+}
+.canvas{
+  display: flex;
+  justify-content: center;
+  margin-top: 300px;
+  box-shadow: 0px 5px 20px #555;
+
+}
+.name{
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  color: black;
+
+}
+.shape{
+  font-size: 18px;
+  color:black;
+}
+.btn{
+  padding:10px;
+  margin: 15px 20px 10px 333px;
+  border: 1px solid black;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+.btn:hover{
+  cursor:pointer;
+  background-color: rgb(208, 125, 151);
+  border: 2px solid #b73a63;
+}
+.deleteDrawing{
+  padding:10px;
+  border: 1px solid grey;
+  font-weight: bold;
+  border-radius: 25px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: block;
+  margin: auto;
+}
+.deleteDrawing:hover{
+  cursor:pointer;
+  background-color: rgb(208, 125, 151);
+  border: 2px solid #b73a63;
+}
+ion-card{
+  display: inline-block;
+  border: black;
+  margin: 160px;
+  border-radius: 25px;
+  border: 1px solid black;
+  box-shadow: 0px 5px 20px #555;
+
+}
+div{
+  margin: 10px;
+}
+.form{
+  display: inline-block;
+  padding:25px;
+}
+ion-label{
+  font-weight: bold;
+  padding: 5px;
+  margin: 18px;
+}
+input{
+  width: 100%;
+  //background-color:  #a4a2a2;
+  font-size: 20px;
+  color: black;
+  padding: 10px 6px;
+  margin:3px;
+  outline: none;
+}
+input[type='text']:focus{
+  border: 2px solid palevioletred;
+}
+input[type='number']:focus{
+  border: 2px solid palevioletred;
+}
+input::placeholder {
+  color: black;
+  opacity: 1;
+}
+.btn1{
+  width: 55%;
+  padding:10px;
+  margin: 10px;
+  font-weight: bold;
+  border: 1px solid black;
+  font-weight: bold;
+  border-radius: 25px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: block;
+  margin: auto;
+}
+.btn1:hover{
+  cursor:pointer;
+  background-color: rgb(146, 208, 161);
+  border: 2px solid green;
+
+
+}
+.draw{
+  display:flex;
+  justify-content: start;
+}
+.btnDraw{
+  width: 25%;
+  padding:8px;
+  font-weight: bold;
+  border: 1px solid black;
+  font-weight: bold;
+  border-radius: 25px;
+  font-size: 16px;
+  letter-spacing: 1px;
+
+}
+.btnDraw:hover{
+  cursor:pointer;
+  background-color: rgb(146, 208, 161);
+  border: 2px solid #759d75;
+}

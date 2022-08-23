@@ -1,0 +1,42 @@
+
+.header{
+  display: flex;
+  justify-content: space-around;
+}
+a{
+  background: #fff;
+  text-decoration: none;
+}
+
+h1{
+  font-family: "Bitstream Charter";
+  text-decoration: none;
+  transition: 0.5s;
+  color: black;
+  font-weight: bold;
+  font-size: 1.6em;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+
+h2{
+  text-decoration: none;
+  color:black;
+  transition: 0.5s;
+  font-weight: bold;
+  font-size: 1.6em;
+  padding: 5px 15px;
+  cursor: pointer;
+
+
+}
+h1:hover{
+  color: green;
+  border-bottom: 1px solid green;
+}
+h2:hover{
+  color: green;
+  border-bottom: 1px solid green;
+
+}

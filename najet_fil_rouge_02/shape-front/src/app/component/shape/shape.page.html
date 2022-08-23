@@ -1,0 +1,86 @@
+<ion-content>
+  <div>
+    <div>
+    </div>
+    <div class="canvas">
+      <canvas id="Canvas" width=1800px height=600px style="border: 1px solid rgb(19, 15, 15)"></canvas>
+    </div>
+  </div>
+  <ion-card  *ngFor="let shape of shapes">
+
+    <div class="container">
+      <div class="title">{{shape.type}}</div>
+      <div class="shape" *ngIf="shape.id">Shape number: {{ shape.id }}</div>
+      <div *ngIf="shape.radius ">radius: {{shape.radius}}</div>
+      <div *ngIf="shape.width">width: {{shape.width}}</div>
+      <div *ngIf="shape.length">length: {{shape.length}}</div>
+      <div *ngIf="shape.side1">side1: {{shape.side1}}</div>
+      <div *ngIf="shape.side2">side2: {{shape.side2}}</div>
+      <div *ngIf="shape.side3">side2: {{shape.side3}}</div>
+      <div>perimeter: {{shape.perimeter}}</div>
+      <div>area: {{shape.area}}</div>
+    </div>
+    <button class="btnDraw" (click)="addCanvas(shape)">draw shape</button>
+    <button type="submit" class="btn"(click)="deleteShape(shape.id)">Remove</button>
+  </ion-card>
+  <ion-card class="card">
+    <div>
+      <form [formGroup]="shapeForm" (ngSubmit)="submitShape()">
+        <div class="form-group">
+          <ion-label for="type">Type</ion-label>
+          <select id="type" [value]="shape.type" class="form-control" formControlName="type" >
+            <option class="typeShape" value="RECTANGLE" [disabled]="shapeId > 0">RECTANGLE</option>
+            <option class="typeShape" value="CIRCLE" [disabled]="shapeId > 0">CIRCLE</option>
+            <option class="typeShape" value="TRIANGLE" [disabled]="shapeId > 0">TRIANGLE</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <ion-label for="name">Name</ion-label>
+          <input type="text" [value]="shapeForm.value.name" class="form-control" id="name" formControlName="name">
+        </div>
+        <div class="form-group">
+          <ion-label for="positionX">position X</ion-label>
+          <input type="number" [value]="shape.x"  class="form-control" id="x" formControlName="x">
+        </div>
+        <div class="form-group">
+          <ion-label for="positionY">position Y</ion-label>
+          <input type="number" [value]="shape.y" class="form-control" id="y" formControlName="y">
+        </div>
+        <!--  Circle   -->
+        <div class="form-group" *ngIf="shapeForm.value.type == 'CIRCLE'">
+          <ion-label class="circle"  for="radius">Radius</ion-label>
+          <input type="number" [value]="shape.radius" class="form-control" id="radius" formControlName="radius">
+        </div>
+        <!--   RECTANGLE   -->
+        <div class="form-group" *ngIf="shapeForm.value.type == 'RECTANGLE'">
+
+          <ion-label for="length">Length</ion-label>
+          <input type="number" [value]="shape.length" class="form-control" id="length" formControlName="length">
+        </div>
+        <div class="form-group" *ngIf="shapeForm.value.type == 'RECTANGLE'">
+          <ion-label for="width">width</ion-label>
+          <input type="number" [value]="shape.width" class="form-control" id="width" formControlName="width">
+        </div>
+        <!--   TRIANGLE   -->
+        <div class="form-group" *ngIf="shapeForm.value.type == 'TRIANGLE'">
+          <ion-label for="side1">Side 1</ion-label>
+          <input type="number" [value]="shape.side1" class="form-control" id="side1" formControlName="side1">
+        </div>
+        <div class="form-group" *ngIf="shapeForm.value.type == 'TRIANGLE'">
+          <ion-label for="side2">side 2</ion-label>
+          <input type="number" [value]="shape.side2" class="form-control" id="side2" formControlName="side2">
+        </div>
+        <div class="form-group" *ngIf="shapeForm.value.type == 'TRIANGLE'">
+          <ion-label for="side3">Side 3</ion-label>
+          <input type="number" [value]="shape.side3" class="form-control" id="side3" formControlName="side3">
+        </div>
+        <div>
+          <button  class="btn1"type="submit" [disabled]="shapeForm.invalid">Save</button>
+        </div>
+      </form>
+    </div>
+
+  </ion-card>
+
+</ion-content>
+

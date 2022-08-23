@@ -1,0 +1,42 @@
+Index: shape-front/src/app/component/drawing/drawing.page.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { Component, OnInit, NgModule } from '@angular/core';\nimport {DrawingService} from \"../../service/drawing.service\";\nimport {IShape} from \"../../controller/models/I-shape\";\nimport {IDrawing} from \"../../controller/models/I-drawing\";\nimport {FormBuilder, FormGroup, Validators} from \"@angular/forms\";\n\n\n\nimport {ModalController} from \"@ionic/angular\";\nimport {fabric} from \"fabric\";\n\n\n@Component({\n  selector: 'app-drawing',\n  templateUrl: './drawing.page.html',\n  styleUrls: ['./drawing.page.scss'],\n})\nexport class DrawingPage implements OnInit {\n  //public drawings: newDrawing[] = [];\n  drawings : any;\n  canvas: any;\n  shapes: IShape = {\n    id: 0,\n    name: \"\",\n    type : \"\",\n    x: 0,\n    y: 0,\n    radius: 0,\n    length: 0,\n    width: 0,\n    side1: 0,\n    side2: 0,\n    side3: 0\n  }\n  constructor(private drawingService: DrawingService,\n              private fb: FormBuilder, private modal: ModalController) {\n  }\n  ngOnInit() {\n    this.getDrawings()\n  }\n\n  public getDrawings() {\n    this.drawingService.getDrawings().subscribe((drawingsFromService) => {\n      //console.dir(drawingsFromService);\n      this.drawings = drawingsFromService;\n    });\n\n  }\n  drawingForm: FormGroup = this.fb.group({\n    name: ['', [Validators.required]]\n  });\n  addShape: FormGroup = this.fb.group({\n    idShape: ['', [Validators.required]],\n    idDrawing: ['', [Validators.required]]\n\n  });\n  public addDrawing(){\n    if (this.drawingForm.valid){\n      console.log(this.drawingForm.value)\n      let drawing : IDrawing = {\n        name: this.drawingForm.controls['name'].value\n      }\n      this.drawingService.addDrawing(drawing).subscribe(res=> {\n        console.log(res);\n        this.drawings.push(res);\n        this.drawingForm.reset();\n      });\n    }\n  }\n\n  removeShape(idDrawing: number, idShape: number) {\n    this.drawingService.removeShapeFromDrawing(idDrawing,idShape).subscribe();\n    location.reload();\n  }\n\n  deleteDrawing(drawingId) {\n    this.drawingService.deleteDrawing(drawingId).subscribe(res =>{\n      let shapesIndex = this.drawings.findIndex(index => index.id == drawingId);\n      this.drawings.splice(shapesIndex, 1);\n\n    });\n\n    //location.reload();\n  }\n\n\n  addShapeDrawing() {\n    if(this.addShape.valid) {\n      let idDrawing = this.addShape.controls['idDrawing'].value;\n      let idShape =  this.addShape.controls['idShape'].value;\n      console.log(idShape, idDrawing)\n      this.drawingService.addShapeFromDrawing(idDrawing,idShape);\n    }\n    location.reload();\n  }\n  draw(drawing: IDrawing){\n    console.log(drawing)\n\n    let showShape:any;\n    this.canvas = new fabric.Canvas('canvas');\n    // @ts-ignore\n    for (let shape of drawing.shapesList){\n      switch(shape.type) {\n        case \"RECTANGLE\":\n          showShape = new fabric.Rect({\n            width: shape.width,\n            height: shape.length,\n            left: shape.x,\n            top: shape.y,\n            fill: 'violet'\n          });\n          console.log(showShape)\n          break;\n        case \"TRIANGLE\":\n          showShape= new fabric.Triangle({\n            // @ts-ignore\n            side1: shape.side1,\n            side2: shape.side2,\n            side3: shape.side3,\n            left: shape.x,\n            top: shape.y,\n            fill: 'green'\n          });\n          break;\n        case \"CIRCLE\":\n          showShape = new fabric.Circle({\n            // @ts-ignore\n            radius: shape.radius,\n            left: shape.x,\n            top:  shape.y,\n            fill: 'pink'\n          });\n          break;\n      }\n      this.canvas.add(showShape);\n    }\n  }\n  addCanvas(shapes: IShape){\n    this.canvas = new fabric.Canvas('canvas');\n    switch(shapes.type){\n      case 'CIRCLE':\n        const circle = new fabric.Circle({\n          radius: shapes.radius,\n          left: shapes.x,\n          top: shapes.y,\n          angle: 0,\n          fill: 'violet'\n        });\n        this.canvas.add(circle);\n        this.canvas.renderAll(circle);\n        break;\n      case 'RECTANGLE':\n        const rect = new fabric.Rect({\n          width: shapes.width,\n          height: shapes.length,\n          left: shapes.x,\n          top: shapes.y,\n          angle: 0,\n          fill: '#b73a63'\n        });\n        this.canvas.add(rect);\n        this.canvas.renderAll(rect);\n        break;\n      case 'TRIANGLE':\n        const triangle = new fabric.Triangle({\n          // @ts-ignore\n          side1: shapes.side1,\n          side2: shapes.side2,\n          side3: shapes.side3,\n          left: shapes.x,\n          top: shapes.y,\n          angle: 0,\n          fill: 'greenyellow'\n        });\n        this.canvas.add(triangle);\n        this.canvas.renderAll(triangle);\n        break;\n      default:\n        break;\n    }\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/shape-front/src/app/component/drawing/drawing.page.ts b/shape-front/src/app/component/drawing/drawing.page.ts
+--- a/shape-front/src/app/component/drawing/drawing.page.ts	(revision 9d7bc6729b112d1ef52ea9393d5e5d73d6ab483c)
++++ b/shape-front/src/app/component/drawing/drawing.page.ts	(date 1649348502491)
+@@ -68,9 +68,13 @@
+     }
+   }
+ 
+-  removeShape(idDrawing: number, idShape: number) {
+-    this.drawingService.removeShapeFromDrawing(idDrawing,idShape).subscribe();
+-    location.reload();
++  removeShapeFromDrawing(drawingId: number, idShape: number) {
++    this.drawingService.removeShapeFromDrawing(drawingId,idShape).subscribe(res=>{
++      let shapesIndex = this.drawings.findIndex(index => index.id == drawingId);
++      this.drawings.splice(shapesIndex, 1);
++
++    });
++  //  location.reload();
+   }
+ 
+   deleteDrawing(drawingId) {
+Index: shape-front/src/app/service/drawing.service.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { Injectable } from '@angular/core';\nimport { environment } from '../../environments/environment';\nimport {HttpClient, HttpHeaders} from '@angular/common/http';\nimport {Idrawing} from'../controller/models/I-drawing';\nimport * as fabric from \"fabric/fabric-impl\";\nimport { Observable } from 'rxjs';\n\n\n\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class DrawingService {\n\napiUrl = environment.apiUrl;\n  httpOptions = {\n    headers: new HttpHeaders({ 'Content-Type': 'application/json' })\n  };\n\n\n  constructor(public httpClient: HttpClient) { }\n\n  public getDrawings() : Observable<Idrawing>{\n    return this.httpClient.get<Idrawing>(`${this.apiUrl}/drawings`);\n  }\n  public getDrawing(id: number): Observable<Idrawing> {\n      return this.httpClient.get<Idrawing>(`${this.apiUrl}/drawings/${id}`);\n    }\n   public  addDrawing(drawing: any){\n      return this.httpClient.post(`${this.apiUrl}/drawings`, drawing);\n    }\n  public  deleteDrawing(drawingId: number): Observable<any>{\n      return this.httpClient.delete(`${this.apiUrl}/drawings/${drawingId}`, {responseType: 'text'});\n    }\n\n//permet de supprimer la forme du dessin\n  removeShapeFromDrawing(idDrawing: number, idShape: number) {\n    return this.httpClient.delete(`${this.apiUrl}/drawings/${idDrawing}/${idShape}`,this.httpOptions );\n  }\n  addShapeFromDrawing(drawingId: number,  shapeId: number){\n    return this.httpClient.post(`${this.apiUrl}/drawings/${drawingId}/${shapeId}`, null).subscribe();\n  }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/shape-front/src/app/service/drawing.service.ts b/shape-front/src/app/service/drawing.service.ts
+--- a/shape-front/src/app/service/drawing.service.ts	(revision 9d7bc6729b112d1ef52ea9393d5e5d73d6ab483c)
++++ b/shape-front/src/app/service/drawing.service.ts	(date 1649348502499)
+@@ -44,3 +44,4 @@
+ 
+ 
+ }
++

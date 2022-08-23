@@ -1,0 +1,51 @@
+
+<ion-content>
+  <div>
+    <div>
+    </div>
+    <div class="canvas">
+      <canvas id="canvas" width=1800px height=600px style="border: 1px solid rgb(19, 15, 15)"></canvas>
+    </div>
+  </div>
+  <ion-card class="container" *ngFor="let drawing of drawings">
+    <div>
+      <div class="name">Drawing number : {{drawing.id}}</div>
+      <div class="content" *ngFor="let shape of drawing.shapesList">
+        <div class="shape" *ngIf="shape.id">Shape number: {{ shape.id }}</div>
+        <div class="shape">{{ shape.type }}</div>
+        <div class="shape" *ngIf="shape.radius">radius: {{ shape.radius }}</div>
+        <div class="shape" *ngIf="shape.length">length: {{ shape.length }}</div>
+        <div class="shape" *ngIf="shape.width">width: {{ shape.width }}</div>
+        <div class="shape" *ngIf="shape.side1">side1: {{ shape.side1 }}</div>
+        <div class="shape" *ngIf="shape.side2">side2: {{ shape.side2 }}</div>
+        <div  class="shape" *ngIf="shape.side3">side3: {{ shape.side3 }}</div>
+        <div class="shape">Total Area:{{drawing.totalPerimeter}}</div>
+        <div class="shape">Total Perimeter:{{drawing.totalArea}}</div>
+        <button  class="btn" (click)="removeShape(drawing.id, shape.id)">Remove shape</button>
+        <div>
+        </div>
+      </div>
+    </div>
+    <div class="draw">
+      <button class="btnDraw" (click)="draw(drawing)">draw shape</button>
+    </div>
+    <button class="deleteDrawing"(click)="deleteDrawing(drawing.id)">Delete drawing</button>
+  </ion-card>
+  <ion-card class="form">
+    <form [formGroup]="drawingForm" (submit)="addDrawing()">
+      <div>
+        <input type="text" id="name" placeholder="Name of drawing" formControlName="name">
+      </div>
+      <button type="submit" class="btn1" [disabled]="!drawingForm.valid">Save</button>
+    </form>
+    <form [formGroup]="addShape" (submit)="addShapeDrawing()">
+      <div>
+        <input type="number" id="idDrawing" placeholder="Id of drawing" formControlName="idDrawing">
+      </div>
+      <div>
+        <input type="number" id="idShape" placeholder="Id of shape" formControlName="idShape">
+      </div>
+      <button type="submit" class="btn1" [disabled]="!addShape.valid">Save</button>
+    </form>
+  </ion-card>
+</ion-content>
